@@ -4,8 +4,8 @@ Before the R80.40 release, which introduced the capability of setting up an Acti
 Specifically, the scripts here are intended to be used in the context of a multi-VPC architecture centered around a Transit Gateway, where inter-VPC, VPC<->On Prem and/or VPC<->internet traffic needs to be inspected. This solution has customers dedicate a VPC to a security setup consisting of two gateways (or clusters) in different AZs and use the Lambda function code of these scripts to make it so that at any given time one healthy gateway (or cluster) will have these traffic flows routed through it. If a gateway or cluster in one AZ become unavailable, the Lambda function will detect it and will change the routes so as to point traffic to the gateway (or cluster) in the other AZ.
 
 There are two scripts in this repo:
-[twogatwaysacrossAZs](/twogatwaysacrossAZs.py) is intended to be used when there are two gateways in different AZs
-[twoclustersaccrossAZs] (/twoclustersaccrossAZs.py) is intended to use when there are either two gateways or two clusters in different AZs
+[twogatwaysacrossAZs](/twogatwaysacrossAZs.py) is intended to be used when there are two gateways in different AZs.
+[twoclustersaccrossAZs](/twoclustersaccrossAZs.py) is intended to use when there are either two gateways or two clusters in different AZs.
 
 ## general mode of operation
 the functions generally work in two stages. in the first stage the function, set up to be triggered periodically by a [Cloudwatch Scheduler](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/RunLambdaSchedule.html), and living on a subnet who's routing points to the active gateway, sends a TCP probe to some host/port that would only succeed if the gateway is functioning, i.e., for the probe to succeed, it has to match a rule on on the gateway. If the probe fails it immediately tries to probe a second host/port. If both probes fail then, in the case of the two gateway script, the route table conrolling the subnet in changed to point to the ENI of the other gateway, while in the case of the two cluster setup, the functions waits for a while (because an intra-AZ failover might be under way), continuously trying to see if a connection has been restored, and only once this times out, it changes the route table.
@@ -21,6 +21,7 @@ the functions generally work in two stages. in the first stage the function, set
 7) Environmental variables need to be set up as follows:
 
 |variable name|variable value|notes|
+|---|---|---|
 |host1| an FQDN or IP address| the address for the first probe the function will use| 
 |port1| a port number| the port for the first probe the function will use|
 |host2| an FQDN or IP address| the address for the second probe the function will use| 
@@ -40,6 +41,7 @@ the functions generally work in two stages. in the first stage the function, set
 7) Environmental variables need to be set up as follows:
 
 |variable name|variable value|notes|
+|---|---|---|
 |host1| an FQDN or IP address| the address for the first probe the function will use| 
 |port1| a port number| the port for the first probe the function will use|
 |host2| an FQDN or IP address| the address for the second probe the function will use| 
