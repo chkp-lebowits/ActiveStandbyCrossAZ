@@ -10,6 +10,8 @@ There are two scripts in this repo:
 ## general mode of operation
 the functions generally work in two stages. in the first stage the function, set up to be triggered periodically by a [Cloudwatch Scheduler](https://docs.aws.amazon.com/AmazonCloudWatch/latest/events/RunLambdaSchedule.html), and living on a subnet who's routing points to the active gateway, sends a TCP probe to some host/port that would only succeed if the gateway is functioning, i.e., for the probe to succeed, it has to match a rule on on the gateway. If the probe fails it immediately tries to probe a second host/port. If both probes fail then, in the case of the two gateway script, the route table conrolling the subnet in changed to point to the ENI of the other gateway, while in the case of the two cluster setup, the functions waits for a while (because an intra-AZ failover might be under way), continuously trying to see if a connection has been restored, and only once this times out, it changes the route table.
 
+![Alt Routeswitch diagram](/networkdrawing.JPG?raw=true "VPC setup")
+
 ## setup for twogatwaysacrossAZs
 0) The code assumes a VPC is already in place with 2 Check Point cloudguard gateways deployed in 2 AZs. The VPC is attached to some TGW. The Subnets for the Check Point ENIs are different from the subnets used for the TGW attachment.
 1) The code needs to be deployed as a python 3.7 Lambda function. 
