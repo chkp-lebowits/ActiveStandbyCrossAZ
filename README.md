@@ -48,5 +48,5 @@ the functions generally work in two stages. in the first stage the function, set
 |port2| a port number| the port for the second probe the function will use|
 |routetable| Route Table ID| the route table associated with the subnets to which the Lambda function and TGW ENIs are attached|
 |tagkey| a string| a tag key that together with the tage value (see below) uniquely identifies all and only the instances of the clusters (or gateways)|
-|tagkey| a string| a tag value that together with the tage key (see acov) uniquely identifies all and only the instances of the clusters (or gateways)|
+|tagvalue| a string| a tag value that together with the tage key (see above) uniquely identifies all and only the instances of the clusters (or gateways)|
 |waittime| a non-negative number| the number of seconds the function should wait when there is no connectivity before changing the route. This is necessary when clusters are used because intra-AZ cluster failover might be underway that will resolve the connectivity issue. a value no less than 30 is recommended|
