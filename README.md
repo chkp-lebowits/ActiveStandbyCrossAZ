@@ -18,7 +18,7 @@ the functions generally work in two stages. in the first stage the function, set
 2) the function needs to allow execution time of up to 10 secs. 
 3) the function needs to be deployed in the same VPC as the gateways, on the same subnets as the subnets where the ENIs of the TGW are deployed 
 4) A VPC endpoint for the EC2 API needs to be enabled on the VPC (so as to allow the function to make API calls to EC2 when the gateways are down).
-5) Permissions: the Lambda function need to be describe route tables, as well as replace routes.
+5) Permissions: the Lambda function needs permissions to describe route tables, as well as replace routes.
 6) Trigger: the function needs to be triggered by a Cloudwatch scheduler. Every 30 secs seems reasonable. 
 7) Environmental variables need to be set up as follows:
 
@@ -38,7 +38,7 @@ the functions generally work in two stages. in the first stage the function, set
 2) the function needs to allow execution time of up to 10 secs more than the "waittime" value is set (see below) 
 3) the function needs to be deployed in the same VPC as the gateways, on the same subnets as the subnets where the ENIs of the TGW are deployed 
 4) A VPC endpoint for the EC2 API needs to be enabled on the VPC (so as to allow the function to make API calls to EC2 when the gateways are down)
-5) Permissions: the Lambda function need to be allows to describe instances, and route tables, as well as replace routes
+5) Permissions: the Lambda function needs permissions to describe instances and route tables, as well as replace routes.
 6) Trigger: the function needs to be triggered by a Cloudwatch scheduler. Every 40 secs seems reasonable. 
 7) Environmental variables need to be set up as follows:
 
